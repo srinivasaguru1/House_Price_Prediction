@@ -10,7 +10,7 @@ from houseprice.components.model_trainer import ModelTrainer
 from houseprice.components.model_evaluation import ModelEvaluation
 from houseprice.components.model_pusher import ModelPusher
 
-from networksecurity.entity.config_entity import (
+from houseprice.entity.config_entity import (
     TrainingPipelineConfig,
     DataIngestionConfig,
     DataValidationConfig,
