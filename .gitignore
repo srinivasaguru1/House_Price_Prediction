@@ -1,2 +1,6 @@
 .env
 venv
+houseprice.egg-info
+logs
+__pycache__
+
