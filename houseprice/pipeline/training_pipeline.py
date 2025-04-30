@@ -21,7 +21,7 @@ from houseprice.entity.config_entity import (
 
 )
 
-from houseprice.entity.config_entity import(
+from houseprice.entity.artifact_entity import(
     DataIngestionArtifact,
     DataValidationArtifact,
     DataTransformationArtifact,
