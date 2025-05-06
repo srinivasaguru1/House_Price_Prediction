@@ -1,0 +1,33 @@
+columns:
+  - result: int64
+  - area: int64
+  - bedrooms: int64
+  - bathrooms: int64
+  - stories: int64
+  - parking: int64
+  - mainroad: object
+  - guestroom: object
+  - basement: object
+  - hotwaterheating: object
+  - airconditioning: object
+  - prefarea: object
+  - furnishingstatus: object
+
+numerical_columns:
+  - result
+  - area
+  - bedrooms
+  - bathrooms
+  - stories
+  - parking
+
+
+categorical_columns:
+  - mainroad
+  - guestroom
+  - basement
+  - hotwaterheating
+  - airconditioning
+  - prefarea
+  - furnishingstatus
+
