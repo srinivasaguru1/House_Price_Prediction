@@ -2,7 +2,7 @@ import sys
 import os
 import numpy as np
 import pandas as pd
-from sklearn.impute import KNNImputer
+from sklearn.impute import KNNImputer, SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
@@ -58,7 +58,6 @@ class DataTransformation:
         logging.info("Entered get_data_transformer_object method of DataTransformation class")
 
         try:
-            imputer = KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS)
             scaler = StandardScaler()
             encoder = OneHotEncoder()
 
@@ -66,11 +65,12 @@ class DataTransformation:
 
             # Defining the transformers for numerical and categorical columns
             numeric_transformer = Pipeline(steps=[
-                ("imputer", imputer),
+                ("imputer", KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS)),
                 ("scaler", scaler)
             ])
 
             categorical_transformer = Pipeline(steps=[
+                ("imputer",SimpleImputer(strategy='most_frequent')),
                 ("encoder", encoder)
             ])
 
@@ -110,7 +110,7 @@ class DataTransformation:
             #testing dataframe
             input_feature_test_df = test_df.drop(columns=[TARGET_COLUMN], axis=1)
             target_feature_test_df = test_df[TARGET_COLUMN]
-            
+
             preprocessor_object = preprocessor.fit(input_feature_train_df)
             transformed_input_train_feature = preprocessor_object.transform(input_feature_train_df)
             transformed_input_test_feature =preprocessor_object.transform(input_feature_test_df)
