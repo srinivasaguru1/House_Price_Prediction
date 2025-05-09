@@ -111,6 +111,9 @@ class DataValidation:
             #Reading data from train and test file location
             train_dataframe = DataValidation.read_data(train_file_path)
             test_dataframe = DataValidation.read_data(test_file_path)
+            # Remove '_id' column if it exists
+            train_dataframe = train_dataframe.drop(columns=["_id"], errors='ignore')
+            test_dataframe = test_dataframe.drop(columns=["_id"], errors='ignore')
             
             #Validate number of columns
             status = self.validate_number_of_columns(dataframe=train_dataframe)

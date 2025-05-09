@@ -20,8 +20,6 @@ numerical_columns:
   - bathrooms
   - stories
   - parking
-
-
 categorical_columns:
   - mainroad
   - guestroom
@@ -30,4 +28,3 @@ categorical_columns:
   - airconditioning
   - prefarea
   - furnishingstatus
-
