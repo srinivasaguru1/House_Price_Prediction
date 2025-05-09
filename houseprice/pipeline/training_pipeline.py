@@ -5,7 +5,7 @@ from houseprice.logger.logger import logging
 
 from houseprice.components.data_ingestion import DataIngestion
 from houseprice.components.data_validation import DataValidation
-# from houseprice.components.data_transformation import DataTransformation
+from houseprice.components.data_transformation import DataTransformation
 # from houseprice.components.model_trainer import ModelTrainer
 # from houseprice.components.model_evaluation import ModelEvaluation
 # from houseprice.components.model_pusher import ModelPusher
@@ -58,9 +58,15 @@ class TrainingPipeline:
         except Exception as e:
             raise HousePriceException(e,sys)
         
-    def start_data_transformation(self):
+    def start_data_transformation(self,data_validation_artifact:DataValidationArtifact):
         try:
-            pass
+            data_transformation_config=DataTransformationConfig(training_pipeline_config=self.training_pipeline_config)
+            logging.info("starting data transformation")
+            data_transformation= DataTransformation(data_validation_artifact=data_validation_artifact,
+                                                    data_transformation_config=data_transformation_config)
+            data_transformation_artifact= data_transformation.initiate_data_transformation()
+            logging.info(f"Data transformation completed and artifact: {data_transformation_artifact}")
+            return data_transformation_artifact
         except Exception as e:
             raise HousePriceException(e,sys)
     def start_model_trainer(self):
@@ -87,6 +93,8 @@ class TrainingPipeline:
             #print(data_ingestion_artifact)
             data_validation_artifact= self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             print(data_validation_artifact)
+            data_transromation_artifact= self.data_transformation(data_validation_artifact=data_validation_artifact)
+            print(data_transromation_artifact)
         except Exception as e:
             raise HousePriceException(e,sys)
 
