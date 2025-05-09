@@ -4,8 +4,10 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import KNNImputer
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
 
-from houseprice.constant.training_pipeline import TARGET_COLUMN
+from houseprice.constant.training_pipeline import TARGET_COLUMN,NUMERICAL_COLUMNS,CATEGORICAL_COLUMNS
 from houseprice.constant.training_pipeline import DATA_TRANSFORMATION_IMPUTER_PARAMS
 from houseprice.entity.artifact_entity import (
     DataTransformationArtifact,
@@ -44,41 +46,47 @@ class DataTransformation:
             raise HousePriceException(e, sys)
 
 
+    from sklearn.compose import ColumnTransformer
+
     def get_data_transformer_object(cls) -> Pipeline:
         """
-        It initialises a KNNImputer object with the parameters specified in the training_pipeline.py file
-        and returns a Pipeline object with the KNNImputer object as the first step.
-
-        Args:
-          cls: DataTransformation
+        Initializes a transformation pipeline that handles both numerical and categorical features.
 
         Returns:
-          A Pipeline object
+            A Pipeline object with preprocessing steps.
         """
-        logging.info(
-            "Entered get_data_transformer_object method of DataTransformation class"
-        )
+        logging.info("Entered get_data_transformer_object method of DataTransformation class")
 
         try:
-            imputer: KNNImputer = KNNImputer(
-                **DATA_TRANSFORMATION_IMPUTER_PARAMS
+            imputer = KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS)
+            scaler = StandardScaler()
+            encoder = OneHotEncoder()
+
+            logging.info(f"Initializing KNNImputer with {DATA_TRANSFORMATION_IMPUTER_PARAMS}")
+
+            # Defining the transformers for numerical and categorical columns
+            numeric_transformer = Pipeline(steps=[
+                ("imputer", imputer),
+                ("scaler", scaler)
+            ])
+
+            categorical_transformer = Pipeline(steps=[
+                ("encoder", encoder)
+            ])
+
+            # ColumnTransformer to handle both numerical and categorical transformations
+            preprocessor = ColumnTransformer(
+                transformers=[
+                    ("num", numeric_transformer, NUMERICAL_COLUMNS),
+                    ("cat", categorical_transformer, CATEGORICAL_COLUMNS)
+                ]
             )
 
-            logging.info(
-                f"Initialise KNNImputer with {DATA_TRANSFORMATION_IMPUTER_PARAMS}"
-            )
-
-            preprocessor: Pipeline = Pipeline([("imputer", imputer)])
-
-            logging.info(
-                "Exited get_data_transformer_object method of DataTransformation class"
-            )
-
+            logging.info("Exited get_data_transformer_object method of DataTransformation class")
             return preprocessor
 
         except Exception as e:
             raise HousePriceException(e, sys)
-
 
     
     def initiate_data_transformation(self,) -> DataTransformationArtifact:
@@ -98,13 +106,11 @@ class DataTransformation:
             #training dataframe
             input_feature_train_df = train_df.drop(columns=[TARGET_COLUMN], axis=1)
             target_feature_train_df = train_df[TARGET_COLUMN]
-            target_feature_train_df = target_feature_train_df.replace(-1, 0)
 
             #testing dataframe
             input_feature_test_df = test_df.drop(columns=[TARGET_COLUMN], axis=1)
             target_feature_test_df = test_df[TARGET_COLUMN]
-            target_feature_test_df = target_feature_test_df.replace(-1, 0)
-
+            
             preprocessor_object = preprocessor.fit(input_feature_train_df)
             transformed_input_train_feature = preprocessor_object.transform(input_feature_train_df)
             transformed_input_test_feature =preprocessor_object.transform(input_feature_test_df)

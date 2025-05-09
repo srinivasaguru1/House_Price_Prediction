@@ -6,7 +6,9 @@ import pandas as pd
 """
 defining common constant variable for training pipeline
 """
-TARGET_COLUMN = "Result"
+NUMERICAL_COLUMNS = ['area','bedrooms','bathrooms','stories','parking']
+CATEGORICAL_COLUMNS = ['mainroad','guestroom','basement','hotwaterheating','airconditioning','prefarea','furnishingstatus']
+TARGET_COLUMN = "price"
 PIPELINE_NAME: str = "HousePrice"
 ARTIFACT_DIR: str = "Artifacts"
 FILE_NAME: str ="HousePrice.csv"
