@@ -3,5 +3,6 @@ venv
 houseprice.egg-info
 logs
 __pycache__
+.pyc
 Artifacts
 

@@ -58,3 +58,20 @@ DATA_TRANSFORMATION_TEST_FILE_PATH: str = "test.npy"
 model trainer related constant start with model trainer var name
 
 """
+MODEL_TRAINER_DIR_NAME: str = "model_trainer"
+MODEL_TRAINER_TRAINED_MODEL_DIR: str = "trained_model"
+MODEL_TRAINER_TRAINED_MODEL_NAME: str = "model.pkl"
+MODEL_TRAINER_EXPECTED_SCORE: float = 0.6
+MODEL_TRAINER_OVER_FIITING_UNDER_FITTING_THRESHOLD: float = 0.25
+PARAM_GRID = {
+    'n_estimators': [50, 100, 150],
+    'max_depth': [3, 4, 5],
+    'max_features': ['sqrt', 'log2', None],  # Corrected here
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4],
+    'bootstrap': [True, False],
+    'random_state': [42]  # Ensuring reproducibility
+}
+
+
+                   
