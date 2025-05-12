@@ -85,3 +85,7 @@ Model Pusher related constant start with MODEL_PUSHER VAR NAME
 """
 MODEL_PUSHER_DIR_NAME = "model_pusher"
 MODEL_PUSHER_SAVED_MODEL_DIR = SAVED_MODEL_DIR
+
+TRAINING_BUCKET_NAME = "houseprice12"
+PREDICTION_BUCKET_NAME = "my-house-datasource"
+PREDICTION_DIR= "prediction"
