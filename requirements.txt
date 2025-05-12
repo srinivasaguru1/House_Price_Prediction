@@ -11,5 +11,7 @@ xgboost
 mlflow
 fastapi
 uvicorn
+ipykernel
+apache-airflow
 
 -e .
