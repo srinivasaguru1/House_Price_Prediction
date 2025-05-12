@@ -64,14 +64,24 @@ MODEL_TRAINER_TRAINED_MODEL_NAME: str = "model.pkl"
 MODEL_TRAINER_EXPECTED_SCORE: float = 0.6
 MODEL_TRAINER_OVER_FIITING_UNDER_FITTING_THRESHOLD: float = 0.25
 PARAM_GRID = {
-    'n_estimators': [50, 100, 150],
-    'max_depth': [3, 4, 5],
-    'max_features': ['sqrt', 'log2', None],  # Corrected here
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4],
-    'bootstrap': [True, False],
-    'random_state': [42]  # Ensuring reproducibility
+    'n_estimators': [100, 200, 300, 400],  # Higher estimators for better performance
+    'max_features': ['sqrt', 'log2'],  # These two are common best practices
+    'max_depth': [10, 20, 30, None],  # Limited depth prevents overfitting
+    'min_samples_split': [2, 10, 20],  # Increase to avoid overfitting
+    'min_samples_leaf': [1, 2, 4, 6],  # Minimum samples per leaf for balance
+    'bootstrap': [True, False],  # Bootstrap is often beneficial for Random Forest
+    'random_state': [42]  # Fixing random state for reproducibility
 }
 
+"""
+Model Evaluation related constant start with MODEL_EVALUATION VAR NAME
+"""
+MODEL_EVALUATION_DIR_NAME: str = "model_evaluation"
+MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE: float = 0.02
+MODEL_EVALUATION_REPORT_NAME= "report.yaml"
 
-                   
+"""
+Model Pusher related constant start with MODEL_PUSHER VAR NAME
+"""
+MODEL_PUSHER_DIR_NAME = "model_pusher"
+MODEL_PUSHER_SAVED_MODEL_DIR = SAVED_MODEL_DIR

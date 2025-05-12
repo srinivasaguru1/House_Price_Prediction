@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import RandomizedSearchCV
 import os
 import sys
 from houseprice.exception.exception import HousePriceException
@@ -9,7 +10,7 @@ from houseprice.utils.ml_utils.model.estimator import HouseModel
 from houseprice.utils.main_utils.utils import save_object, load_object
 from houseprice.utils.main_utils.utils import load_numpy_array_data
 from houseprice.utils.ml_utils.metric.regression_metric import get_regression_score
-#from houseprice.constant.training_pipeline import PARAM_GRID
+from houseprice.constant.training_pipeline import PARAM_GRID
 
 class ModelTrainer:
 
@@ -19,20 +20,29 @@ class ModelTrainer:
             self.model_trainer_config = model_trainer_config
             self.data_transformation_artifact = data_transformation_artifact
         except Exception as e:
-            raise HousePriceException(e,sys)
+            raise HousePriceException(e, sys)
 
-    def train_model(self, x_train, y_train):
+    def train_model_with_hyperparameter_tuning(self, x_train, y_train):
         try:
-            # Initialize RandomForestRegressor without hyperparameter tuning
+            # Initialize RandomForestRegressor
             rf_reg = RandomForestRegressor(random_state=42)
 
-            # Train the model
-            rf_reg.fit(x_train, y_train)
-            logging.info("Model training completed.")
-            return rf_reg
+
+
+            # RandomizedSearchCV to tune hyperparameters (using RandomForestRegressor)
+            random_search = RandomizedSearchCV(estimator=rf_reg, param_distributions=PARAM_GRID, 
+                                               n_iter=100, cv=3, verbose=2, random_state=42, n_jobs=-1)
+
+            # Train the model with the best parameters found from the search
+            random_search.fit(x_train, y_train)
+            logging.info(f"Best parameters found: {random_search.best_params_}")
+            logging.info(f"Best score from RandomizedSearchCV: {random_search.best_score_}")
+
+            # Return the best estimator
+            return random_search.best_estimator_
 
         except Exception as e:
-            raise e
+            raise HousePriceException(e, sys)
 
     def initiate_model_trainer(self) -> ModelTrainerArtifact:
         try:
@@ -49,9 +59,9 @@ class ModelTrainer:
                 test_arr[:, 1:],   # Features from test data
                 test_arr[:, 0],    # Target from test data
             )
-            
-            # Train the model without hyperparameter tuning
-            model = self.train_model(x_train, y_train)
+
+            # Train the model using hyperparameter tuning
+            model = self.train_model_with_hyperparameter_tuning(x_train, y_train)
 
             # Predictions and evaluation on training data
             y_train_pred = model.predict(x_train)
@@ -68,8 +78,8 @@ class ModelTrainer:
             diff = abs(train_metric.r2_score - test_metric.r2_score) / max(abs(train_metric.r2_score), abs(test_metric.r2_score))
             if diff > self.model_trainer_config.overfitting_underfitting_threshold:
                 print(diff)
-                raise Exception("Model is not good try to do more experimentation.")
-                
+                raise Exception("Model is not good, try to do more experimentation.")
+
             # Load preprocessor and save the model
             preprocessor = load_object(self.data_transformation_artifact.transformed_object_file_path)
             house_model = HouseModel(preprocessor=preprocessor, model=model)
