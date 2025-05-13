@@ -4,6 +4,8 @@ RUN mkdir /app
 COPY . /app/
 WORKDIR /app/
 RUN pip3 install -r requirements.txt
+# Install Airflow and the correct version of Pendulum
+RUN pip install pendulum==2.1.2 apache-airflow==2.7.2
 ENV AWS_DEFAULT_REGION = "us-east-1"
 ENV BUCKET_NAME="houseprice12"
 ENV PREDICTION_BUCKET_NAME="my-house-datasource"
