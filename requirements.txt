@@ -15,8 +15,6 @@ mlflow
 dvc
 jinja2
 python-multipart
-Flask-Session
-pendulum==2.1.2
-apache-airflow==2.7.2
+apache-airflow==2.6.3
 
 -e .
