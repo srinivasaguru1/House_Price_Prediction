@@ -15,6 +15,7 @@ mlflow
 dvc
 jinja2
 python-multipart
+pendulum
 apache-airflow==2.6.3
 
 -e .
