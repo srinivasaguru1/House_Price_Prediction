@@ -8,11 +8,13 @@ scikit-learn
 dill
 pyyaml
 xgboost
-mlflow
 fastapi
 uvicorn
 ipykernel
 apache-airflow
+mlflow
 dvc
+jinja2
+python-multipart
 
 -e .
