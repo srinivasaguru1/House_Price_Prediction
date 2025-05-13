@@ -16,5 +16,7 @@ mlflow
 dvc
 jinja2
 python-multipart
+flask-appbuilder
+
 
 -e .
