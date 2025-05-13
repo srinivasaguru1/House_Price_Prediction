@@ -10,8 +10,14 @@ ENV PREDICTION_BUCKET_NAME="my-house-datasource"
 ENV AIRFLOW_HOME="/app/airflow"
 ENV AIRFLOW_CORE_DAGBAG_IMPORT_TIMEOUT=1000
 ENV AIRFLOW_CORE_ENABLE_XCOM_PICKLING=True
-RUN airflow db migrate
-RUN airflow users create --username admin --firstname aguru --lastname srinivas --role Admin --email srinivasaguru301@gmail.com --password admin
+RUN airflow db init && \
+    flask --app airflow.cli.users create \
+    --username admin \
+    --firstname Puli \
+    --lastname Srinivas \
+    --role Admin \
+    --email srinivasaguru301@gmail.com \
+    --password admin
 RUN chmod 777 start.sh
 RUN apt update -y
 ENTRYPOINT [ "/bin/sh" ]
