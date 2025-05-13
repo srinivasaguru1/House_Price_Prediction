@@ -11,10 +11,12 @@ xgboost
 fastapi
 uvicorn
 ipykernel
-apache-airflow==2.5.3
 mlflow
 dvc
 jinja2
 python-multipart
 Flask-Session
+pendulum==2.1.2
+apache-airflow==2.7.2
+
 -e .
