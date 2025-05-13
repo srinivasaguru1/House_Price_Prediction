@@ -16,5 +16,5 @@ mlflow
 dvc
 jinja2
 python-multipart
-
+Flask-Session
 -e .
