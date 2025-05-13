@@ -1,3 +1,5 @@
 !bin/sh
-nohup airflow scheduler &
-airflow webserver
+
+echo "Starting Airflow webserver and scheduler..."
+airflow webserver --port 8080 & 
+airflow scheduler
