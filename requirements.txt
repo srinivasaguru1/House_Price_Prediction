@@ -11,12 +11,10 @@ xgboost
 fastapi
 uvicorn
 ipykernel
-apache-airflow
+apache-airflow==2.5.3
 mlflow
 dvc
 jinja2
 python-multipart
-flask-appbuilder
-
 
 -e .
