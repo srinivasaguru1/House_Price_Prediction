@@ -26,6 +26,9 @@ ENV AIRFLOW_CORE_ENABLE_XCOM_PICKLING=True
 # Set permissions for the start script
 RUN chmod +x start.sh
 
+# Initialize the Airflow database
+RUN airflow db init
+
 # Airflow entry point
 ENTRYPOINT ["airflow"]
 CMD ["standalone"]
