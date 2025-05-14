@@ -88,7 +88,7 @@ jobs:
 
       - name: Stop and remove network container if running
         run: |
-         docker ps -q --filter name="houseprice" | grep -q . && docker stop houseprice && docker rm -fv houseprice
+         docker ps -q --filter "name=houseprice" | grep -q . && docker stop houseprice && docker rm -fv houseprice
        
       - name: Run Docker Image to serve users
         run: |
