@@ -27,7 +27,7 @@ ENV AIRFLOW_CORE_ENABLE_XCOM_PICKLING=True
 RUN chmod +x start.sh
 
 # Initialize the Airflow database
-RUN airflow db init
+RUN airflow db migrate
 
 # Airflow entry point
 ENTRYPOINT ["airflow"]
